@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Navbar - BitSpear Lab</title>
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #1A2332;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(15, 23, 38, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* ===== LOGO ===== */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-section:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: #0EA5E9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-section:hover .logo-box {
+            transform: rotate(360deg);
+        }
+
+        /* Effetto shine sul logo - animazione continua */
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: logoShine 2s linear infinite;
+        }
+
+        @keyframes logoShine {
+            to { left: 100%; }
+        }
+
+        /* ===== MENU ===== */
+        .menu {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+        }
+
+        .menu-item {
+            position: relative;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-size: 15px;
+        }
+
+        .menu-link:hover {
+            color: white;
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        /* Linea blu sotto */
+        .menu-link::before {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 16px;
+            right: 16px;
+            height: 2px;
+            background: #0EA5E9;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Freccia dropdown */
+        .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .menu-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* ===== DROPDOWN ===== */
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: #0F1726;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            min-width: 224px;
+            padding: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.2s ease;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .menu-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #1e293b;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item .icon {
+            font-size: 18px;
+            color: #0EA5E9;
+            transition: transform 0.5s ease;
+            display: inline-block;
+        }
+
+        .dropdown-item:hover .icon {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        /* ===== ACTIONS (Destra) ===== */
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .icon-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .icon-button:hover {
+            background: #1e293b;
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Pallino animato sulla ricerca */
+        .search-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background: #0EA5E9;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        /* Badge carrello */
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #0EA5E9;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            animation: badgePulse 1.5s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Separatore */
+        .separator {
+            width: 1px;
+            height: 24px;
+            background: #334155;
+            margin: 0 4px;
+        }
+
+        /* ===== SIGN UP BUTTON ===== */
+        .signup-button {
+            padding: 10px 24px;
+            background: #0EA5E9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .signup-button:hover {
+            transform: scale(1.05);
+        }
+
+        .signup-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Effetto shine continuo */
+        .signup-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -200%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: buttonShine 1.5s linear infinite;
+        }
+
+        @keyframes buttonShine {
+            to { left: 200%; }
+        }
+
+        /* Stellina rotante */
+        .signup-icon {
+            display: inline-block;
+            animation: rotateIcon 2s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes rotateIcon {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== DROPDOWN RICERCA ===== */
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 320px;
+            background: #0F1726;
+            border: 2px solid rgba(14, 165, 233, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.2s ease;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .search-container:hover .search-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .search-icon-input {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0EA5E9;
+            font-size: 14px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 12px 12px 12px 36px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            ring: 2px solid #0EA5E9;
+            box-shadow: 0 0 0 2px #0EA5E9;
+        }
+
+        .search-input::placeholder {
+            color: #64748b;
+        }
+
+        .search-suggestions {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 8px;
+            padding: 0 8px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .suggestion-item:hover {
+            background: #1e293b;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+
+            .actions .icon-button:nth-child(3),
+            .separator {
+                display: none;
+            }
+
+            .navbar {
+                padding: 0 16px;
+            }
+        }
+
+        /* ===== TOGGLE BUTTON ===== */
+        .view-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #ef4444;
+            color: white;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.6);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 24px rgba(239, 68, 68, 0.8);
+            background: #dc2626;
+        }
+
+        .view-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile view simulata */
+        body.mobile-view .container {
+            max-width: 375px;
+        }
+
+        body.mobile-view .menu {
+            display: none;
+        }
+
+        body.mobile-view .actions .icon-button:nth-child(3),
+        body.mobile-view .separator {
+            display: none;
+        }
+
+        body.mobile-view .navbar {
+            padding: 0 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <!-- LOGO -->
+            <a href="#" class="logo-section">
+                <div class="logo-box">✦</div>
+                <span>Brandify</span>
+            </a>
+
+            <!-- MENU -->
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">Home</a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        Products
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">✨</span>
+                            <span>New Arrivals</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">⭐</span>
+                            <span>Best Sellers</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">⚡</span>
+                            <span>Special Offers</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">❤️</span>
+                            <span>Favorites</span>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        Features
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">⭐</span>
+                            <span>Premium Access</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">⚡</span>
+                            <span>Fast Delivery</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="icon">✨</span>
+                            <span>VIP Support</span>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">Pricing</a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">About</a>
+                </li>
+            </ul>
+
+            <!-- ACTIONS -->
+            <div class="actions">
+                <!-- Search con dropdown -->
+                <div class="search-container">
+                    <button class="icon-button">
+                        🔍
+                        <span class="search-dot"></span>
+                    </button>
+                    <div class="search-dropdown">
+                        <div class="search-input-wrapper">
+                            <span class="search-icon-input">🔍</span>
+                            <input 
+                                type="text" 
+                                class="search-input" 
+                                placeholder="Search products..."
+                            >
+                        </div>
+                        <div class="search-suggestions">Popular searches</div>
+                        <a href="#" class="suggestion-item">
+                            <span>⚡</span>
+                            <span>Trending items</span>
+                        </a>
+                        <a href="#" class="suggestion-item">
+                            <span>⚡</span>
+                            <span>New arrivals</span>
+                        </a>
+                        <a href="#" class="suggestion-item">
+                            <span>⚡</span>
+                            <span>Best deals</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cart -->
+                <button class="icon-button">
+                    🛒
+                    <span class="cart-badge">3</span>
+                </button>
+
+                <!-- User -->
+                <button class="icon-button">
+                    👤
+                </button>
+
+                <!-- Separator -->
+                <div class="separator"></div>
+
+                <!-- Sign Up -->
+                <button class="signup-button">
+                    <span style="position: relative; z-index: 1;">Sign Up</span>
+                    <span class="signup-icon">✨</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Previeni comportamento default dei link
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+        });
+
+        // Log al click su Sign Up
+        document.querySelector('.signup-button').addEventListener('click', () => {
+            console.log('Sign Up clicked! ✨');
+        });
+
+        // Auto-focus sull'input quando si apre la ricerca
+        const searchContainer = document.querySelector('.search-container');
+        const searchInput = document.querySelector('.search-input');
+
+        searchContainer.addEventListener('mouseenter', () => {
+            setTimeout(() => {
+                searchInput.focus();
+            }, 200);
+        });
+
+        // Toggle button per simulare la vista mobile
+        const toggleButton = document.createElement('button');
+        toggleButton.className = 'view-toggle';
+        toggleButton.innerHTML = '<span>📱</span><span id="toggle-text">Mobile View</span>';
+        document.body.appendChild(toggleButton);
+
+        let isMobile = false;
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('mobile-view');
+            isMobile = !isMobile;
+            
+            const text = document.getElementById('toggle-text');
+            if (isMobile) {
+                text.textContent = 'Desktop View';
+                toggleButton.querySelector('span:first-child').textContent = '💻';
+            } else {
+                text.textContent = 'Mobile View';
+                toggleButton.querySelector('span:first-child').textContent = '📱';
+            }
+        });
+    </script>
+</body>
+</html>
