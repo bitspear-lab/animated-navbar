@@ -16,30 +16,31 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: #1A2332;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
         }
 
         /* ===== CONTAINER ===== */
         .container {
             width: 100%;
-            max-width: 1200px;
         }
 
         /* ===== NAVBAR ===== */
         .navbar {
-            background: rgba(15, 23, 38, 0.8);
-            backdrop-filter: blur(4px);
-            border-radius: 16px;
-            padding: 0 24px;
+            background: rgba(15, 23, 38, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            padding: 0 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             height: 80px;
             transition: all 0.3s ease;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
 
         /* ===== LOGO ===== */
@@ -468,135 +469,147 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: #0F1726;
             z-index: 9999;
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .mobile-menu-overlay.active {
             opacity: 1;
             visibility: visible;
+            display: flex;
         }
 
         .mobile-menu-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #1e293b;
+            margin-bottom: 50px;
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
         .mobile-close {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: transparent;
             border: none;
-            color: white;
-            font-size: 24px;
+            color: #cbd5e1;
+            font-size: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 8px;
             transition: all 0.3s ease;
+            font-weight: 300;
         }
 
         .mobile-close:hover {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.5);
+            color: white;
             transform: rotate(90deg);
         }
 
         .mobile-menu-links {
             list-style: none;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .mobile-menu-links li {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .mobile-menu-links a {
             display: block;
-            color: #cbd5e1;
+            color: #94a3b8;
             text-decoration: none;
-            font-size: 18px;
-            padding: 16px 20px;
-            border-radius: 12px;
+            font-size: 17px;
+            padding: 16px 24px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            font-weight: 400;
         }
 
         .mobile-menu-links a:hover {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.5);
             color: white;
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         .mobile-menu-actions {
             margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid #1e293b;
+            padding-top: 0;
+            border-top: none;
         }
 
         .mobile-action-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-            color: #cbd5e1;
+            gap: 16px;
+            padding: 18px 24px;
+            color: #94a3b8;
             text-decoration: none;
-            border-radius: 12px;
-            margin-bottom: 8px;
+            border-radius: 8px;
+            margin-bottom: 4px;
             transition: all 0.3s ease;
             font-size: 16px;
+            font-weight: 400;
         }
 
         .mobile-action-item:hover {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.5);
             color: white;
         }
 
         .mobile-action-item .icon {
-            font-size: 20px;
+            font-size: 22px;
         }
 
         .mobile-action-item .badge {
             margin-left: auto;
             background: #0EA5E9;
             color: white;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .mobile-signup {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: #0EA5E9;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 16px;
+            margin-top: 20px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .mobile-signup:hover {
             transform: scale(1.02);
+            background: #0ea5e9;
         }
 
         .mobile-signup:active {
@@ -615,19 +628,39 @@
             animation: buttonShine 1.5s linear infinite;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        .mobile-signup span {
+            position: relative;
+            z-index: 1;
+        }
 
+        /* ===== RESPONSIVE ===== */
+        
+        /* Tablet (1024px and below) */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 0 32px;
+            }
+        }
+
+        /* Tablet (768px and below) - Mobile menu starts here */
+        @media (max-width: 768px) {
             .menu {
                 display: none !important;
             }
 
-            .actions .icon-button,
+            /* Hide all actions except search and hamburger */
+            .actions .icon-button:not(.search-icon-mobile),
             .separator,
             .signup-button {
+                display: none !important;
+            }
+
+            /* Keep only the search icon button visible */
+            .search-container {
+                display: flex !important;
+            }
+
+            .search-container .search-dropdown {
                 display: none !important;
             }
 
@@ -640,12 +673,12 @@
             }
 
             .navbar {
-                padding: 0 12px;
+                padding: 0 20px;
                 height: 64px;
             }
 
             .logo-section {
-                font-size: 14px;
+                font-size: 15px;
             }
 
             .logo-box {
@@ -655,68 +688,32 @@
             }
 
             .actions {
-                gap: 12px;
+                gap: 16px;
+            }
+
+            .search-dot {
+                display: none;
+            }
+
+            .icon-button {
+                width: 36px;
+                height: 36px;
             }
         }
 
-        /* Extra small devices */
+        /* Mobile (480px and below) */
         @media (max-width: 480px) {
             .navbar {
-                padding: 0 8px;
+                padding: 0 16px;
             }
 
             .logo-section span {
-                font-size: 13px;
+                font-size: 14px;
             }
-        }
 
-        /* ===== TOGGLE BUTTON ===== */
-        .view-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 24px;
-            background: #ef4444;
-            color: white;
-            border: 2px solid white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.6);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .view-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 24px rgba(239, 68, 68, 0.8);
-            background: #dc2626;
-        }
-
-        .view-toggle:active {
-            transform: scale(0.95);
-        }
-
-        /* Mobile view simulata */
-        body.mobile-view .container {
-            max-width: 375px;
-        }
-
-        body.mobile-view .menu {
-            display: none;
-        }
-
-        body.mobile-view .actions .icon-button:nth-child(3),
-        body.mobile-view .separator {
-            display: none;
-        }
-
-        body.mobile-view .navbar {
-            padding: 0 16px;
+            .actions {
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -860,7 +857,7 @@
                 <div class="logo-box">✦</div>
                 <span>Brandify</span>
             </a>
-            <button class="mobile-close" id="closeMenu">✕</button>
+            <button class="mobile-close" id="closeMenu">×</button>
         </div>
 
         <ul class="mobile-menu-links">
@@ -882,7 +879,8 @@
                 <span>Account</span>
             </a>
             <button class="mobile-signup">
-                Sign Up ✨
+                <span>Sign Up</span>
+                <span>✨</span>
             </button>
         </div>
     </div>
@@ -959,27 +957,6 @@
             if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
                 mobileMenu.classList.remove('active');
                 document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Toggle button per simulare la vista mobile
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'view-toggle';
-        toggleButton.innerHTML = '<span>📱</span><span id="toggle-text">Mobile View</span>';
-        document.body.appendChild(toggleButton);
-
-        let isMobile = false;
-        toggleButton.addEventListener('click', () => {
-            document.body.classList.toggle('mobile-view');
-            isMobile = !isMobile;
-            
-            const text = document.getElementById('toggle-text');
-            if (isMobile) {
-                text.textContent = 'Desktop View';
-                toggleButton.querySelector('span:first-child').textContent = '💻';
-            } else {
-                text.textContent = 'Mobile View';
-                toggleButton.querySelector('span:first-child').textContent = '📱';
             }
         });
     </script>
